@@ -1,0 +1,13 @@
+services:
+  app:
+    # Меняющаяся версия образа
+    image: nginx:latest
+    # Избыточные привилегии
+    privileged: true
+
+  db:
+    # Меняющаяся версия образа
+    image: redis:latest
+    # Избыточные привилегии
+    privileged: true
+    # Нет volume для данных БД

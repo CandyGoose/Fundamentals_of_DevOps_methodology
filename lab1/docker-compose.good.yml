@@ -1,0 +1,32 @@
+services:
+  app:
+    # Фиксированная версия образа
+    image: nginx:1.27-alpine
+    ports:
+      - "127.0.0.1:8081:80"
+    networks:
+      # Отдельная сеть для app
+      - app_net
+
+  db:
+    # Фиксированная версия образа
+    image: redis:7.4-alpine
+    # Данные БД сохраняются в volume
+    volumes:
+      - redis_data:/data
+    networks:
+      # Отдельная сеть для db
+      - db_net
+
+networks:
+  app_net:
+    driver: bridge
+    # Внутренняя сеть без внешнего доступа
+    internal: true
+  db_net:
+    driver: bridge
+    # Внутренняя сеть без внешнего доступа
+    internal: true
+
+volumes:
+  redis_data:
