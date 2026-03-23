@@ -1,0 +1,20 @@
+FROM python:3.12-slim
+
+# Ставим лишние пакеты
+RUN apt-get update && apt-get install -y \
+    openssh-server \
+    telnet \
+    vim \
+    curl
+
+# Храним секреты прямо здесь
+ENV DB_PASSWORD=super_secret_password
+
+WORKDIR /app
+
+COPY README.md /app/README.md
+
+# Открываем слишком много портов
+EXPOSE 22 80 443 8080
+
+CMD ["python", "-m", "http.server", "8080"]
