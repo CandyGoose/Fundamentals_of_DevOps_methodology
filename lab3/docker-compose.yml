@@ -1,0 +1,36 @@
+services:
+  project-a:
+    image: hashicorp/http-echo:1.0.0
+    command:
+      - "-text=Project A backend is alive"
+      - "-listen=:5678"
+    networks:
+      - app-net
+
+  project-b:
+    image: hashicorp/http-echo:1.0.0
+    command:
+      - "-text=Project B backend is alive"
+      - "-listen=:5678"
+    networks:
+      - app-net
+
+  nginx:
+    image: nginx:1.27-alpine
+    depends_on:
+      - project-a
+      - project-b
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+      - ./project-a/public:/srv/project-a/public:ro
+      - ./project-b/public:/srv/project-b/public:ro
+      - ./shared-assets:/srv/shared-assets:ro
+    networks:
+      - app-net
+
+networks:
+  app-net:
