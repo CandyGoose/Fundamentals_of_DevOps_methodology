@@ -1,0 +1,27 @@
+fullnameOverride: lab5-prometheus
+
+nodeExporter:
+  enabled: false
+
+alertmanager:
+  enabled: false
+
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelector:
+      matchLabels:
+        release: lab5-prometheus
+    serviceMonitorNamespaceSelector: {}
+
+grafana:
+  enabled: true
+  adminPassword: lab5-grafana
+  defaultDashboardsEnabled: true
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+
+defaultRules:
+  create: false

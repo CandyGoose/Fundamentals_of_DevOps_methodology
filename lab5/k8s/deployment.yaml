@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  namespace: lab5
+  labels:
+    app: hello-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.28-alpine
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+              readOnly: true
+            - name: nginx-config
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: index.html
+              readOnly: true
+        - name: nginx-exporter
+          image: nginx/nginx-prometheus-exporter:1.4.0
+          args:
+            - -nginx.scrape-uri=http://127.0.0.1:80/stub_status
+          ports:
+            - name: metrics
+              containerPort: 9113
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: hello-world-nginx

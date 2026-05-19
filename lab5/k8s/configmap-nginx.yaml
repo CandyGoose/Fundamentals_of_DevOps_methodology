@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hello-world-nginx
+  namespace: lab5
+  labels:
+    app: hello-world
+data:
+  default.conf: |
+    server {
+      listen 80;
+      server_name _;
+
+      location /stub_status {
+        stub_status;
+        allow 127.0.0.1;
+        deny all;
+      }
+
+      location / {
+        root /usr/share/nginx/html;
+        index index.html;
+      }
+    }
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <title>Hello</title>
+    </head>
+    <body>
+      <h1>Hello, world</h1>
+    </body>
+    </html>

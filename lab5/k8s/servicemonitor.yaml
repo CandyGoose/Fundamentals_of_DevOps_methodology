@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: hello-world
+  namespace: lab5
+  labels:
+    app: hello-world
+    release: lab5-prometheus
+spec:
+  selector:
+    matchLabels:
+      app: hello-world
+  namespaceSelector:
+    matchNames:
+      - lab5
+  endpoints:
+    - port: metrics
+      interval: 15s
+      path: /metrics
