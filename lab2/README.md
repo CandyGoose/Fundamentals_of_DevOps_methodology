@@ -21,7 +21,7 @@ Kubernetes включила в Docker Desktop, minikube не ставила. П�
 kubectl cluster-info
 ```
 
-<img width="1081" height="95" alt="image" src="https://github.com/user-attachments/assets/b85bc5a3-32b1-48d9-8f84-c70a50576eda" />
+<img width="1081" height="93" alt="image" src="https://github.com/user-attachments/assets/2849aa17-4fe8-4c2b-b8e0-ae31244a62a1" />
 
 ### Манифесты
 
@@ -120,18 +120,18 @@ resources:
 kubectl apply -k ./lab2/k8s
 ```
 
-<img width="338" height="76" alt="image" src="https://github.com/user-attachments/assets/db9c484c-5c54-4e1d-a5fa-ee43ad68f4db" />
+<img width="328" height="69" alt="image" src="https://github.com/user-attachments/assets/6bfb7cbc-2137-4588-8a54-6eb903e71cc1" />
 
 ### Проверка состояния
 
-На все объекты повесила метку app: hello-world - так проще смотреть get -l:
+На все объекты повесила метку app: hello-world, чтобы было проще смотреть get -l:
 
 ```bash
 kubectl get configmap,deployment,service -l app=hello-world
 kubectl get pods -l app=hello-world
 ```
 
-<img width="734" height="219" alt="image" src="https://github.com/user-attachments/assets/f0050abc-61c0-45b4-9e5c-6ad83d518f8d" />
+<img width="581" height="62" alt="image" src="https://github.com/user-attachments/assets/b8412c14-b6ff-4648-abad-4a2db158dc0f" />
 
 Под Running, deployment 1/1.
 
@@ -143,11 +143,11 @@ kubectl get pods -l app=hello-world
 kubectl port-forward service/hello-world 8080:80
 ```
 
-<img width="457" height="91" alt="image" src="https://github.com/user-attachments/assets/4dd41208-4910-47af-a56e-a8329169caa2" />
+<img width="458" height="69" alt="image" src="https://github.com/user-attachments/assets/dd0d2fdc-a6f9-4c8c-8ec6-756749463aea" />
 
 http://localhost:8080 - "Hello, world" на месте.
 
-<img width="346" height="162" alt="image" src="https://github.com/user-attachments/assets/dad6ad62-4b3a-4e85-9b02-2a6d4ebe9b33" />
+<img width="394" height="146" alt="image" src="https://github.com/user-attachments/assets/cad9c63e-fa78-464a-b5f2-dc3e2627a4d8" />
 
 ## 2 часть
 
@@ -277,7 +277,7 @@ helm install, релиз назвала hw:
 helm install hw ./lab2/chart/hello-world
 ```
 
-<img width="407" height="142" alt="image" src="https://github.com/user-attachments/assets/514599f7-c135-43ac-805c-72898e20b1c1" />
+<img width="386" height="140" alt="image" src="https://github.com/user-attachments/assets/49b531bf-27d4-4f93-b8df-5a5ac436609f" />
 
 ### Проверка состояния
 
@@ -289,7 +289,11 @@ helm status hw
 kubectl get configmap,deployment,service,pods -l app.kubernetes.io/instance=hw
 ```
 
-<img width="722" height="795" alt="image" src="https://github.com/user-attachments/assets/0c0001da-2043-4169-89be-33061b1fc754" />
+<img width="1189" height="59" alt="image" src="https://github.com/user-attachments/assets/b78a1982-89a6-41db-9f1c-c32bc3929e99" />
+
+<img width="680" height="447" alt="image" src="https://github.com/user-attachments/assets/f9e52752-12ba-450b-8ad0-578a633f5c5a" />
+
+<img width="769" height="141" alt="image" src="https://github.com/user-attachments/assets/98b17b73-13cc-4f2a-bbad-b0e8ff672262" />
 
 Port-forward, как в части 1:
 
@@ -297,11 +301,11 @@ Port-forward, как в части 1:
 kubectl port-forward service/hw-hello-world 8080:80
 ```
 
-<img width="483" height="89" alt="image" src="https://github.com/user-attachments/assets/e6d39145-26b3-4932-a5a3-4072c3b51ad1" />
+<img width="489" height="57" alt="image" src="https://github.com/user-attachments/assets/74b6ba28-445e-4e7f-8bcd-365d03c6e69f" />
 
 http://localhost:8080 - текст из values.yaml, совпадает.
 
-<img width="330" height="155" alt="image" src="https://github.com/user-attachments/assets/a20ea200-89fb-4a09-b4b8-a1ccf97bd020" />
+<img width="384" height="145" alt="image" src="https://github.com/user-attachments/assets/3601ed90-6f87-4bb1-9b24-8b15c0ef5c8c" />
 
 ### Обновление релиза
 
@@ -314,7 +318,7 @@ kubectl get pods -l app.kubernetes.io/instance=hw
 
 Port-forward еще раз. В браузере "Hello, world - v2", подов две штуки.
 
-<img width="317" height="159" alt="image" src="https://github.com/user-attachments/assets/83554ca7-e585-4a4e-bdee-de0a5248ee12" />
+<img width="371" height="150" alt="image" src="https://github.com/user-attachments/assets/605d3d8c-2006-4d6b-9bb3-0e933bae7849" />
 
 ### 3 причины, почему Helm удобнее, чем только kubernetes манифесты
 

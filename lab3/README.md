@@ -14,7 +14,7 @@
 > **2 часть**<br>
 Попробовать взломать nginx любого доступного сайта. Проверить минимум три уязвимости - например path traversal, перебор страниц через ffuf и/или любые другие на ваш выбор.<br>
 Рекомендую выбрать не супер популярные сайты как google или яндекс, а что-то небольшое локальное, как сайт местной спортивной федерации по бальным танцам или набора инструкций к онлайн игре.<br>
-Взлом считается успешным, если вы попали туда, куда не планировалось попадать пользователю, даже если там ничего нет. Успешность взлома не влияет на оценку лабы. 
+Взлом считается успешным, если вы попали туда, куда не планировалось попадать пользователю, даже если там ничего нет. Успешность взлома не влияет на оценку лабы.<br>
 В отчет приложить скрины попыток взлома, описание уязвимостей, на которые проверяли и итог - успешен взлом или нет.
 
 ## 1 часть
@@ -26,7 +26,7 @@
 
 Основной конфиг - [projects.conf](./nginx/conf.d/projects.conf): https, редирект с 80, два виртуальных хоста, alias, прокси в backend.
 
-1. Редирект HTTP -> HTTPS - отдельный server на 80, отдает 301 на https://:
+Редирект HTTP -> HTTPS - отдельный server на 80, отдает 301 на https://:
 
 ```nginx
 server {
@@ -36,9 +36,9 @@ server {
 }
 ```
 
-2. Два server-блока на 443 - project-a.local и project-b.local. По server_name запрос уходит в нужный проект.
+Два server-блока на 443 - project-a.local и project-b.local. По server_name запрос уходит в нужный проект.
 
-3. Alias для переопределения путей:
+Alias для переопределения путей:
 
 - project-a.local/assets/ -> /srv/shared-assets/
 - project-a.local/docs/ -> /srv/project-a/public/docs/
@@ -50,7 +50,7 @@ location /assets/ {
 }
 ```
 
-4. В upstream прокидываю заголовки Host, X-Real-IP, X-Forwarded-For, X-Forwarded-Proto.
+В upstream прокидываю заголовки Host, X-Real-IP, X-Forwarded-For, X-Forwarded-Proto.
 
 Подняла все через [docker-compose.yml](./docker-compose.yml) - nginx, project-a, project-b, порты 80 и 443, конфиги и статика примонтированы в контейнер:
 
@@ -70,15 +70,15 @@ nginx:
 
 Скрины из браузера:
 
-<img width="559" height="305" alt="image" src="https://github.com/user-attachments/assets/3674ada7-ad25-41d9-81ed-348134a57e59" />
+<img width="536" height="293" alt="image" src="https://github.com/user-attachments/assets/957d00ce-0e4f-4ae8-b7cd-20bb7fb04bff" />
 
-<img width="545" height="255" alt="image" src="https://github.com/user-attachments/assets/a5d4c94a-73a2-4c0a-a5f6-0b4bfab3e6f7" />
+<img width="561" height="246" alt="image" src="https://github.com/user-attachments/assets/10ce2143-df9c-42e7-961c-6ccf759b756a" />
 
-<img width="684" height="143" alt="image" src="https://github.com/user-attachments/assets/1d0890e4-bdb9-485b-90e5-023480eab366" />
+<img width="675" height="162" alt="image" src="https://github.com/user-attachments/assets/9ac66b5c-556b-4484-83c8-df98f224c51a" />
 
-<img width="681" height="135" alt="image" src="https://github.com/user-attachments/assets/e022f150-8216-4e1d-b919-a32655cac4ee" />
+<img width="682" height="141" alt="image" src="https://github.com/user-attachments/assets/ff8f7a9c-5b47-4acc-a48a-95a4a501a212" />
 
-<img width="692" height="156" alt="image" src="https://github.com/user-attachments/assets/964164fe-dd25-4e11-bcf5-0ecee29b3c40" />
+<img width="655" height="156" alt="image" src="https://github.com/user-attachments/assets/34047357-915e-46ed-a9ba-b0efd437e4e3" />
 
 Редирект с http:
 
@@ -86,7 +86,7 @@ nginx:
 curl -I http://project-a.local
 ```
 
-<img width="335" height="168" alt="image" src="https://github.com/user-attachments/assets/881ca411-d3f7-4e48-ad4a-6a79c1802c60" />
+<img width="325" height="146" alt="image" src="https://github.com/user-attachments/assets/d53e4d9a-f81a-4eeb-893a-5aa32f797ccc" />
 
 Что project-a и project-b реально разные:
 
@@ -95,11 +95,13 @@ curl -k https://project-a.local
 curl -k https://project-b.local
 ```
 
-<img width="700" height="604" alt="image" src="https://github.com/user-attachments/assets/738ce089-6425-421c-b9c7-2d5fd59a9ac6" />
+<img width="727" height="260" alt="image" src="https://github.com/user-attachments/assets/42ce75ec-7e71-4417-bf4a-13c5eb74986b" />
+
+<img width="730" height="240" alt="image" src="https://github.com/user-attachments/assets/fd87fef5-5fad-4b7b-a619-88f547a72f68" />
 
 ## 2 часть
 
-Для второй части взяла https://www.gambler.ru/ (nginx/1.28.0) - не гугл и не яндекс, как в задании советуют.
+Для второй части взяла https://www.gambler.ru/ (nginx/1.28.0).
 
 ### Path Traversal (/etc/passwd, .git, .env)
 
@@ -113,17 +115,23 @@ curl -k --path-as-is "https://www.gambler.ru/%2e%2e/%2e%2e/%2e%2e/%2e%2e/etc/pas
 
 Ответ 400 или главная страница. /etc/passwd не отдал.
 
-<img width="648" height="186" alt="image" src="https://github.com/user-attachments/assets/2b925de3-33c2-4f7d-b4e9-3f4c207c10ca" />
+<img width="645" height="140" alt="image" src="https://github.com/user-attachments/assets/dff7ee91-609d-4552-b56e-a729180a0704" />
+
+<img width="911" height="404" alt="image" src="https://github.com/user-attachments/assets/54e37a96-3415-4dd6-9f49-87e761388cc3" />
+
+<img width="781" height="143" alt="image" src="https://github.com/user-attachments/assets/b88c3b17-7e87-409b-8999-b31f851afac1" />
 
 ### Тесты через ffuf
 
 Собрала [ffuf-paths.txt](./ffuf-paths.txt) - типовые пути плюс то, что нашла в robots.txt.
 
-<img width="829" height="527" alt="image" src="https://github.com/user-attachments/assets/ddb00725-ec6c-42fc-8640-b284f1592dd8" />
+<img width="430" height="916" alt="image" src="https://github.com/user-attachments/assets/1a480cc7-7ca6-4fc2-8f0f-e80d1810e26c" />
 
-В основном 400 и 404, местами 301/410. admin/ дал 302 - в браузере попала на какую-то страницу /9/ с формой логина. Не /etc/passwd, но куда обычный пользователь вряд ли заходит.
+В основном 30X, местами 40X. admin/ дал 302 - в браузере попала на какую-то страницу /9/ с формой логина. Не /etc/passwd, но куда обычный пользователь вряд ли заходит.
 
-<img width="1159" height="459" alt="image" src="https://github.com/user-attachments/assets/df3271c1-411c-4003-b2a5-c956a12e405e" />
+<img width="775" height="865" alt="image" src="https://github.com/user-attachments/assets/944d7d59-8844-40c7-a2a8-a9609221d870" />
+
+<img width="1139" height="824" alt="image" src="https://github.com/user-attachments/assets/0e754dd1-3a95-4c85-88c2-2941e2bcb89b" />
 
 ### Проверка HTTP-методов
 
@@ -138,7 +146,11 @@ curl -k -i -X DELETE https://www.gambler.ru/nonexistent-test-path
 - TRACE -> 405
 - PUT/DELETE -> 301 на главную, данных не менялось
 
-<img width="409" height="331" alt="image" src="https://github.com/user-attachments/assets/33984414-16cb-4825-904d-ee66ce85ecf2" />
+<img width="412" height="260" alt="image" src="https://github.com/user-attachments/assets/26de4d88-09cc-4946-adfd-0d17af130fe3" />
+
+<img width="584" height="146" alt="image" src="https://github.com/user-attachments/assets/1146947a-295d-47cd-beb4-3c6ebbef4530" />
+
+<img width="617" height="149" alt="image" src="https://github.com/user-attachments/assets/fc020710-188f-4125-8535-4cfa4c24f4c9" />
 
 ### Проверка CORS, Host Header и Open Redirect
 

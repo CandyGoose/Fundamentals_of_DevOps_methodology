@@ -117,7 +117,7 @@ deploy:
 
 Секреты через Hashicorp Vault. [docker-compose.vault.yml](./docker-compose.vault.yml), bootstrap - [vault/bootstrap-dev.sh](./vault/bootstrap-dev.sh), policy - [vault/policies/lab4-ci.hcl](./vault/policies/lab4-ci.hcl).
 
-Vault в dev-режиме, без лишней возни для лабы:
+Vault в dev-режиме, чтобы не усложнять:
 
 ```bash
 docker compose -f ./lab4/docker-compose.vault.yml up -d
@@ -158,7 +158,7 @@ id_tokens:
   "$VAULT_ADDR/v1/auth/jwt/login" | jq -r '.auth.client_token')
 ```
 
-Мне так нравится больше: в CI нет вечного секрета на все секреты, JWT живет один job, Vault token короткий и только на чтение одного пути, ветку и проект можно зажать. В git и логах пароля нет.
+То есть в CI нет вечного секрета на все секреты, JWT живет один job, Vault token короткий и только на чтение одного пути, ветку и проект можно зажать. В git и логах пароля нет.
 
 Почему CI/CD variables хуже как основное хранилище:
 

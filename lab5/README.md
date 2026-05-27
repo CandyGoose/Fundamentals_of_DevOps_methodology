@@ -32,7 +32,9 @@ kubectl apply -k ./lab5/k8s
 kubectl get pods,svc -n lab5
 ```
 
-<img width="730" height="241" alt="image" src="https://github.com/user-attachments/assets/09233aa7-8502-4e95-a2cd-c9c2fa5ac119" />
+<img width="327" height="92" alt="image" src="https://github.com/user-attachments/assets/6a24423c-8bf8-4180-af43-628b57ed9f37" />
+
+<img width="774" height="110" alt="image" src="https://github.com/user-attachments/assets/71d59329-0372-408e-8b80-6bd956e5d8a0" />
 
 Port-forward и проверка в браузере:
 
@@ -40,7 +42,7 @@ Port-forward и проверка в браузере:
 kubectl port-forward -n lab5 service/hello-world 8080:80
 ```
 
-<img width="363" height="144" alt="image" src="https://github.com/user-attachments/assets/2873d72c-f0cf-44f5-a775-217e1e8a9078" />
+<img width="381" height="142" alt="image" src="https://github.com/user-attachments/assets/90386814-afdd-4dbb-8ae3-67837ddd6f07" />
 
 ### Prometheus и Grafana
 
@@ -53,7 +55,11 @@ helm upgrade --install lab5-prometheus prometheus-community/kube-prometheus-stac
 kubectl get pods -n monitoring
 ```
 
-<img width="722" height="554" alt="image" src="https://github.com/user-attachments/assets/186a85f8-f7a6-4302-8795-c874c101a789" />
+<img width="725" height="79" alt="image" src="https://github.com/user-attachments/assets/49e60bc4-a3ea-4a3e-9e49-cad26ae11ea4" />
+
+<img width="1525" height="156" alt="image" src="https://github.com/user-attachments/assets/caf258fa-fa76-43fa-a810-614e7e4f71da" />
+
+<img width="877" height="97" alt="image" src="https://github.com/user-attachments/assets/311606b8-d558-4da0-927f-6be475ebc35d" />
 
 Подключила hello-world к Prometheus и закинула дашборд в Grafana:
 
@@ -63,6 +69,10 @@ kubectl apply -f ./lab5/monitoring/grafana-dashboard-hello-world.yaml
 ```
 
 [servicemonitor.yaml](./k8s/servicemonitor.yaml) - Prometheus Operator ходит на 9113 каждые 15 секунд. [grafana-dashboard-hello-world.yaml](./monitoring/grafana-dashboard-hello-world.yaml) - ConfigMap с json дашборда.
+
+<img width="534" height="42" alt="image" src="https://github.com/user-attachments/assets/1abec48e-164a-49b5-8e16-3dbf747cc998" />
+
+<img width="649" height="39" alt="image" src="https://github.com/user-attachments/assets/a4642d14-30b3-45bf-9207-836271758258" />
 
 ### Графики
 
@@ -76,12 +86,12 @@ kubectl apply -f ./lab5/monitoring/grafana-dashboard-hello-world.yaml
 for i in $(seq 1 300); do curl -s -o /dev/null http://localhost:8080/ & done; wait
 ```
 
-<img width="1610" height="357" alt="image" src="https://github.com/user-attachments/assets/8b1c993a-b51d-48e9-90bb-f5e48af63cc2" />
+<img width="1448" height="466" alt="image" src="https://github.com/user-attachments/assets/5a11c1b7-ae3f-41ff-9d82-f4fac2f6e34b" />
 
 Остановила сервис - графики упали:
 
-<img width="1529" height="351" alt="image" src="https://github.com/user-attachments/assets/99cbdfc8-f1c9-4735-b1c7-b14c1b87e2d4" />
+<img width="1450" height="457" alt="image" src="https://github.com/user-attachments/assets/3fed861f-0100-4226-a48d-a4fbbde1dc9c" />
 
 ## Выводы
 
-Подняла hello-world в k8s, повесила на него Prometheus и Grafana. Два графика живые - соединения nginx и cpu пода. Нагрузку curl'ом, падение видно когда сервис выключить.
+Подняла hello-world в k8s, повесила на него Prometheus и Grafana. Два графика живые - соединения nginx и cpu пода. Падение видно когда сервис выключить.
